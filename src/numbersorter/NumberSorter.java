@@ -1,7 +1,7 @@
  /*
- * 
- * 
- * 
+ * Kieran Bates
+ * November 15, 2019
+ * This program will sort a user selected quantity of random numbers from least to greatest or greatest to least according to user input
  */
 
 package numbersorter;
@@ -12,6 +12,43 @@ import java.util.Scanner;
  */
 public class NumberSorter {
     
+    /**
+     * Determine in which direction the user wants the numbers sorted
+     * @param input
+     * @return an output boolean indicating the sort direction
+     */
+    public static boolean sortDirection(int input)
+    {
+        boolean output = true;
+        if(input == 1) //If user input is 1
+        {
+            output = true;
+        }
+        if(input == 2) //If user input is 2
+        {
+            output = false;
+        }
+    return output;
+    }
+    
+    /**
+     * Determine if user wants to repeat the program and output a boolean
+     * @param userInput
+     * @return repeat program yes or no
+     */
+    public static boolean repeatProg(String userInput)
+    {
+        boolean repeat = false;
+        if(userInput.equals("yes") || userInput.equals("Yes") || userInput.equals("YES")) //if answer is yes, output true
+        {
+            repeat = true;
+        }
+        if(userInput.equals("no") || userInput.equals("No") || userInput.equals("NO")) //if answer is no, output false
+        {
+            repeat = false;
+        }
+        return repeat;
+    }
     /**
      * Generate a random number and output
      * @param numberOfIntegers An integer that stores the number of random integers the user wants generated
@@ -38,14 +75,8 @@ public class NumberSorter {
         
         userInput = input2.next(); //obtain user input
         
-        if(userInput.equals("yes") || userInput.equals("Yes") || userInput.equals("YES")) //if answer is yes, output true
-        {
-            repeat = true;
-        }
-        if(userInput.equals("no") || userInput.equals("No") || userInput.equals("NO")) //if answer is no, output false
-        {
-            repeat = false;
-        }
+        repeat = repeatProg(userInput);
+        
         return repeat; //return the boolean storing the user selection
     }
     /**
@@ -71,9 +102,18 @@ public class NumberSorter {
             numbers[i] = one;
             System.out.println(numbers[i]);
         }
+        System.out.println("Sort from...");
+        System.out.println("1...Least to greatest");
+        System.out.println("2...Greatest to least");
+        System.out.print("Enter number --> ");
+        
+        int userSelection = input.nextInt();
+        
         System.out.println("Sorting..."); //Print sorting
         
         //sort the numbers using a bubble sort algorithm
+        if(sortDirection(userSelection) == true)
+        {
         boolean exit = false;
         int temp;
         
@@ -82,7 +122,7 @@ public class NumberSorter {
             exit = true;
             for(int i=0 ; i<numbers.length-1 ; i++) //Scan the length of the array for numbers out of place
             {
-                if(numbers[i]>numbers[i+1]) //If number to the left is greater than number to the right
+                if(numbers[i]>numbers[i+1]) //If number to the left is less than number to the right
                 {
                     //Swap numbers
                     temp = numbers[i+1];
@@ -92,6 +132,29 @@ public class NumberSorter {
                 }
             }
         }
+        }
+        if(sortDirection(userSelection) == false)
+        {
+        boolean exit = false;
+        int temp;
+        
+        while(exit == false) //repeat until numbers are sorted
+        {
+            exit = true;
+            for(int i=0 ; i<numbers.length-1 ; i++) //Scan the length of the array for numbers out of place
+            {
+                if(numbers[i]<numbers[i+1]) //If number to the left is greater than number to the right
+                {
+                    //Swap numbers
+                    temp = numbers[i+1];
+                    numbers[i+1]=numbers[i];
+                    numbers[i] = temp;
+                    exit = false;
+                }
+            }
+        }
+        }
+        
         //Print the sorted numbers to the screen
         for(int i=0 ; i<numbers.length ; i++)
         {
